@@ -1,0 +1,201 @@
+'''
+ Exercício 1: Verificar se o número é positivo ou negativo
+● Criar uma interface Tkinter onde o usuário insere um número e, ao pressionar um
+botão, a aplicação verifica se o número é positivo ou negativo. Uma mensagem será
+exibida na tela informando o resultado.
+● Crie um campo de entrada para o usuário inserir o número.
+● Crie um botão que, quando pressionado, verifica se o número é positivo ou negativo.
+● Exiba a resposta em uma caixa de mensagem ou Label. '''
+
+import tkinter as tk
+from tkinter import messagebox
+
+def verificar_numero():
+    try:
+        numero = float(entry_numero.get())
+        if numero > 0:
+            messagebox.showinfo("Resultado", "O número é positivo")
+        elif numero < 0:
+            messagebox.showinfo("Resultado", "O número é negativo")
+        else:
+            messagebox.showinfo("Resultado", "O número é zero")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite um número válido!")
+
+root = tk.Tk()
+root.title("Verificar Número")
+
+tk.Label(root, text="Digite um número:").pack()
+entry_numero = tk.Entry(root)
+entry_numero.pack()
+
+tk.Button(root, text="Verificar", command=verificar_numero).pack()
+
+root.mainloop()
+
+
+'''Exercício 2: Verificar se há elementos maiores que o limite
+● Criar uma interface onde o usuário insere uma lista de números ordenados e um
+limite desejado. A aplicação verifica se existe algum número na lista maior que o
+limite e retorna o índice do primeiro número que atenda a essa condição, ou -1 se
+nenhum número atender.
+● Crie um campo de entrada onde o usuário pode inserir os números da lista.
+● Crie um campo de entrada para o limite desejado.
+● Crie um botão para verificar e mostrar o índice do primeiro número que seja maior
+que o limite ou -1.'''
+
+import tkinter as tk
+from tkinter import messagebox
+
+def verificar_lista():
+    try:
+        lista = list(map(int, entry_lista.get().split(",")))
+        limite = int(entry_limite.get())
+        for i, num in enumerate(lista):
+            if num > limite:
+                messagebox.showinfo("Resultado", f"Índice: {i}")
+                return
+        messagebox.showinfo("Resultado", "-1")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite valores válidos!")
+
+root = tk.Tk()
+root.title("Verificar Lista")
+
+tk.Label(root, text="Digite números separados por vírgula:").pack()
+entry_lista = tk.Entry(root)
+entry_lista.pack()
+
+tk.Label(root, text="Digite o limite:").pack()
+entry_limite = tk.Entry(root)
+entry_limite.pack()
+
+tk.Button(root, text="Verificar", command=verificar_lista).pack()
+
+root.mainloop()
+
+
+'''Exercício 3: Verificar se o ano é bissexto
+● Criar uma interface onde o usuário insere um ano, e ao pressionar um botão, a
+aplicação verifica se o ano é bissexto ou não e exibe uma mensagem informando o
+resultado.
+● Crie um campo de entrada para o usuário inserir o ano.
+● Crie um botão que, quando pressionado, verifica se o ano é bissexto.
+● Exiba uma mensagem informando se o ano é bissexto ou não.'''
+
+import tkinter as tk
+from tkinter import messagebox
+
+def verificar_ano():
+    try:
+        ano = int(entry_ano.get())
+        if (ano % 4 == 0 and ano % 100 != 0) or (ano % 400 == 0):
+            messagebox.showinfo("Resultado", f"O ano {ano} é bissexto")
+        else:
+            messagebox.showinfo("Resultado", f"O ano {ano} não é bissexto")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite um ano válido!")
+
+root = tk.Tk()
+root.title("Verificar Ano Bissexto")
+
+tk.Label(root, text="Digite um ano:").pack()
+entry_ano = tk.Entry(root)
+entry_ano.pack()
+
+tk.Button(root, text="Verificar", command=verificar_ano).pack()
+
+root.mainloop()
+
+
+'''Exercício 4: Calculadora básica
+● Criar uma calculadora simples onde o usuário pode inserir dois números e, ao
+pressionar um botão, o resultado das operações de adição, subtração, multiplicação
+
+e divisão será exibido.
+● Crie dois campos de entrada para o usuário inserir os dois números.
+● Crie um botão que, ao ser pressionado, realiza as operações matemáticas e exibe
+os resultados no Label.'''
+
+import tkinter as tk
+from tkinter import messagebox
+
+def calcular():
+    try:
+        n1 = float(entry_num1.get())
+        n2 = float(entry_num2.get())
+        soma = n1 + n2
+        sub = n1 - n2
+        mult = n1 * n2
+        div = "Indefinida" if n2 == 0 else n1 / n2
+        resultado = f"Soma: {soma}\nSubtração: {sub}\nMultiplicação: {mult}\nDivisão: {div}"
+        label_resultado.config(text=resultado)
+    except ValueError:
+        messagebox.showerror("Erro", "Digite números válidos!")
+
+root = tk.Tk()
+root.title("Calculadora Básica")
+
+tk.Label(root, text="Digite o 1º número:").pack()
+entry_num1 = tk.Entry(root)
+entry_num1.pack()
+
+tk.Label(root, text="Digite o 2º número:").pack()
+entry_num2 = tk.Entry(root)
+entry_num2.pack()
+
+tk.Button(root, text="Calcular", command=calcular).pack()
+
+label_resultado = tk.Label(root, text="")
+label_resultado.pack()
+
+root.mainloop()
+
+
+'''Exercício 5: Manipular uma lista de 4 números
+● Criar uma interface onde o usuário insere 4 números. Depois, ao pressionar um
+botão, a aplicação:
+1. Mostra quantas vezes o número 9 aparece na lista.
+2. Informa a posição do primeiro valor 3 na lista.
+3. Exibe todos os números pares da lista.
+● Crie quatro campos de entrada para os números.
+● Crie um botão que, ao ser pressionado, executa as seguintes operações:
+○ Conta quantas vezes o número 9 aparece.
+○ Encontra a posição do primeiro número 3.
+○ Exibe os números pares.'''
+
+import tkinter as tk
+from tkinter import messagebox
+
+
+def analisar_lista():
+    try:
+        numeros = [int(entry1.get()), int(entry2.get()), int(entry3.get()), int(entry4.get())]
+
+        qtd_nove = numeros.count(9)
+        pos_tres = numeros.index(3) + 1 if 3 in numeros else "Não encontrado"
+        pares = [n for n in numeros if n % 2 == 0]
+
+        resultado = f"Quantidade de 9: {qtd_nove}\nPosição do primeiro 3: {pos_tres}\nNúmeros pares: {pares}"
+        messagebox.showinfo("Resultado", resultado)
+    except ValueError:
+        messagebox.showerror("Erro", "Digite apenas números válidos!")
+
+
+root = tk.Tk()
+root.title("Analisar Lista")
+
+tk.Label(root, text="Digite 4 números:").pack()
+
+entry1 = tk.Entry(root);
+entry1.pack()
+entry2 = tk.Entry(root);
+entry2.pack()
+entry3 = tk.Entry(root);
+entry3.pack()
+entry4 = tk.Entry(root);
+entry4.pack()
+
+tk.Button(root, text="Analisar", command=analisar_lista).pack()
+
+root.mainloop()
