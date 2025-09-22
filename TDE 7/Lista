@@ -1,0 +1,45 @@
+'''1.Conversor de Unidades
+Objetivo: Criar um sistema para converter unidades:
+● Temperatura: Celsius ↔ Fahrenheit
+● Distância: Km ↔ Milhas
+● Peso: Kg ↔ Libras
+
+Interface com entrada de valor, seleção de tipo de conversão e botão para
+converter.'''
+
+'''2.Gerador de Senhas Seguras
+Objetivo: Gerar senhas aleatórias com critérios (tamanho, uso de símbolos,
+números etc.)
+● Campo para escolher o tamanho da senha.
+● Caixas de seleção para incluir maiúsculas, números e símbolos.
+● Botão para gerar e exibir a senha.
+● Botão "Copiar senha".'''
+
+
+'''3. Temporizador / Cronômetro
+Objetivo: Criar um cronômetro simples com botões:
+● Iniciar
+● Pausar
+● Resetar
+
+Exibe o tempo decorrido em formato 00:00:00.'''
+
+
+
+'''4. Gerenciar um pequeno estoque com nome do produto, quantidade e preço.
+Funcionalidades:
+● Adicionar produtos.
+● Listar todos os produtos em uma janela.
+● Atualizar a quantidade de um produto.
+● Excluir produto.
+● Exibir o valor total do estoque.'''
+
+
+
+'''5. Sistema de Votação
+Objetivo: Criar uma votação com 3 candidatos.
+Funcionalidades:
+● Três botões, um para cada candidato.
+● Contador de votos.
+● Exibir o total de votos e o vencedor.
+● Botão para resetar votação.'''
