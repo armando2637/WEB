@@ -7,6 +7,53 @@ Objetivo: Criar um sistema para converter unidades:
 Interface com entrada de valor, seleção de tipo de conversão e botão para
 converter.'''
 
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+
+def executar_conversao():
+    try:
+        dado = float(caixa_valor.get())
+escolha = lista_opcoes.get()
+if escolha == "Celsius → Fahrenheit":
+    saida = (dado * 9/5) + 32
+mensagem = f"{dado} °C equivalem a {saida:.2f} °F"
+    elif escolha == "Fahrenheit → Celsius":
+saida = (dado - 32) * 5/9
+mensagem = f"{dado} °F equivalem a {saida:.2f} °C"
+    elif escolha == "Km → Milhas":
+saida = dado / 1.609
+mensagem = f"{dado} km equivalem a {saida:.2f} mi"
+    elif escolha == "Milhas → Km":
+saida = dado * 1.609
+mensagem = f"{dado} mi equivalem a {saida:.2f} km"
+    elif escolha == "Kg → Libras":
+saida = dado * 2.205
+mensagem = f"{dado} kg equivalem a {saida:.2f} lb"
+    elif escolha == "Libras → Kg":
+saida = dado / 2.205
+mensagem = f"{dado} lb equivalem a {saida:.2f} kg"
+    else:
+mensagem = "Por favor, escolha uma conversão válida."
+messagebox.showinfo("Resultado", mensagem)
+    except ValueError:
+messagebox.showerror("Erro", "Insira um número válido.")
+
+app = tk.Tk()
+app.title("Conversor Universal")
+app.geometry("360x220")
+tk.Label(app, text="Informe o valor:").pack(pady=5)
+caixa_valor = tk.Entry(app)
+caixa_valor.pack(pady=5)
+tk.Label(app, text="Tipo de conversão:").pack(pady=5)
+opcoes = ["Celsius → Fahrenheit","Fahrenheit → Celsius","Km → Milhas","Milhas → Km","Kg → Libras","Libras → Kg"]
+lista_opcoes = ttk.Combobox(app, values=opcoes, state="readonly")
+lista_opcoes.pack(pady=5)
+tk.Button(app, text="Calcular", command=executar_conversao).pack(pady=10)
+app.mainloop()
+
+
+
 '''2.Gerador de Senhas Seguras
 Objetivo: Gerar senhas aleatórias com critérios (tamanho, uso de símbolos,
 números etc.)
@@ -15,6 +62,74 @@ números etc.)
 ● Botão para gerar e exibir a senha.
 ● Botão "Copiar senha".'''
 
+import tkinter as tk
+from tkinter import messagebox
+import random
+import string
+
+def gerar_senha():
+    try:
+        tamanho = int(entry_tamanho.get())
+        caracteres = ""
+        if var_maiuscula.get():
+            caracteres += string.ascii_uppercase
+        if var_numeros.get():
+            caracteres += string.digits
+        if var_simbolos.get():
+            caracteres += string.punctuation
+        caracteres += string.ascii_lowercase  # sempre inclui minúsculas
+
+        if tamanho < 4:
+            messagebox.showwarning("Aviso", "Use no mínimo 4 caracteres.")
+            return
+        if not caracteres:
+            messagebox.showwarning("Aviso", "Selecione pelo menos uma opção.")
+            return
+
+        senha = "".join(random.choice(caracteres) for _ in range(tamanho))
+        entry_resultado.delete(0, tk.END)
+        entry_resultado.insert(0, senha)
+
+    except ValueError:
+        messagebox.showerror("Erro", "Digite um número válido para o tamanho.")
+
+def copiar_senha():
+    senha = entry_resultado.get()
+    if senha:
+        janela.clipboard_clear()
+        janela.clipboard_append(senha)
+        messagebox.showinfo("Copiado", "Senha copiada para a área de transferência!")
+    else:
+        messagebox.showwarning("Aviso", "Nenhuma senha para copiar.")
+
+# Janela principal
+janela = tk.Tk()
+janela.title("Gerador de Senhas Seguras")
+janela.geometry("400x250")
+
+# Entrada do tamanho
+tk.Label(janela, text="Tamanho da senha:").pack(pady=5)
+entry_tamanho = tk.Entry(janela)
+entry_tamanho.pack(pady=5)
+
+# Opções
+var_maiuscula = tk.BooleanVar()
+var_numeros = tk.BooleanVar()
+var_simbolos = tk.BooleanVar()
+
+tk.Checkbutton(janela, text="Incluir Letras Maiúsculas", variable=var_maiuscula).pack(anchor="w")
+tk.Checkbutton(janela, text="Incluir Números", variable=var_numeros).pack(anchor="w")
+tk.Checkbutton(janela, text="Incluir Símbolos", variable=var_simbolos).pack(anchor="w")
+
+# Botões
+tk.Button(janela, text="Gerar Senha", command=gerar_senha).pack(pady=10)
+
+entry_resultado = tk.Entry(janela, width=40)
+entry_resultado.pack(pady=5)
+
+tk.Button(janela, text="Copiar Senha", command=copiar_senha).pack(pady=5)
+
+janela.mainloop()
 
 '''3. Temporizador / Cronômetro
 Objetivo: Criar um cronômetro simples com botões:
