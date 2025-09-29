@@ -1,1 +1,160 @@
+import tkinter as tk
+from tkinter import messagebox, ttk
+
+
+'''1. Escreva uma função verificar_numero que recebe um número inserido pelo
+usuário como parâmetro e imprime em uma caixa de mensagem do Tkinter
+se o número é positivo ou negativo.'''
+
+def verificar_numero():
+    try:
+        numero = float(entry_numero.get())
+        if numero > 0:
+            messagebox.showinfo("Resultado", "O número é positivo")
+        elif numero < 0:
+            messagebox.showinfo("Resultado", "O número é negativo")
+        else:
+            messagebox.showinfo("Resultado", "O número é zero")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite um número válido!")
+
+
+'''2. Criar uma interface Tkinter que permita ao usuário inserir uma lista ordenada
+de números e um limite desejado. Em seguida, ao pressionar um botão, a
+função verificará se há algum elemento na lista maior que o limite desejado e
+retornará o índice do primeiro elemento que atenda a essa condição, ou
+retornará -1 se nenhum elemento for maior que o limite desejado.'''
+
+def verificar_lista_limite():
+    try:
+        lista = list(map(int, entry_lista.get().split()))
+        limite = int(entry_limite.get())
+        indice = -1
+        for i, valor in enumerate(lista):
+            if valor > limite:
+                indice = i
+                break
+        messagebox.showinfo("Resultado", f"Índice encontrado: {indice}")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite apenas números válidos!")
+
+
+'''3. Criar uma interface Tkinter que permita ao usuário inserir um ano e, ao
+pressionar um botão, a função verificará se o ano é bissexto ou não. Em
+seguida, exibirá uma mensagem indicando o resultado.'''
+
+
+def verificar_bissexto():
+    try:
+        ano = int(entry_ano.get())
+        if (ano % 4 == 0 and ano % 100 != 0) or (ano % 400 == 0):
+            messagebox.showinfo("Resultado", f"O ano {ano} é bissexto")
+        else:
+            messagebox.showinfo("Resultado", f"O ano {ano} NÃO é bissexto")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite um ano válido!")
+
+
+'''4. Criar uma calculadora básica em Tkinter que permita ao usuário inserir dois
+números e, ao pressionar um botão, exibirá o resultado da
+adição,subtração,multiplicação e divisão desses dois números.'''
+
+
+def calcular():
+    try:
+        n1 = float(entry_n1.get())
+        n2 = float(entry_n2.get())
+        soma = n1 + n2
+        sub = n1 - n2
+        mult = n1 * n2
+        div = "Não é possível dividir por zero" if n2 == 0 else n1 / n2
+        messagebox.showinfo("Resultados",
+                            f"Soma: {soma}\nSubtração: {sub}\nMultiplicação: {mult}\nDivisão: {div}")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite números válidos!")
+
+
+'''5. Criar uma interface Tkinter que permita ler quatro valores pelo teclado e
+guarde-os em uma lista.
+No final mostre:
+a)Quantas vezes apareceu o valor 9.
+b)Em que posição foi digitado o primeiro valor 3.
+c)Quais foram os números pares. enunciado para tkinter'''
+
+
+def analisar_lista():
+    try:
+        valores = list(map(int, entry_valores.get().split()))
+        if len(valores) != 4:
+            messagebox.showerror("Erro", "Digite exatamente 4 valores!")
+            return
+
+        qtd9 = valores.count(9)
+        pos3 = valores.index(3) + 1 if 3 in valores else "Não encontrado"
+        pares = [v for v in valores if v % 2 == 0]
+
+        messagebox.showinfo("Resultado",
+                            f"a) O número 9 apareceu {qtd9} vezes\n"
+                            f"b) O primeiro valor 3 foi digitado na posição: {pos3}\n"
+                            f"c) Números pares: {pares if pares else 'Nenhum'}")
+    except ValueError:
+        messagebox.showerror("Erro", "Digite apenas números válidos!")
+
+
+
+'''INTERFACE PRINCIPAL DO CODIGO '''
+
+root = tk.Tk()
+root.title("Exercícios Tkinter")
+
+notebook = ttk.Notebook(root)
+notebook.pack(fill="both", expand=True)
+
+# --------- Aba 1 ---------
+aba1 = ttk.Frame(notebook)
+notebook.add(aba1, text="Questão 1")
+tk.Label(aba1, text="Digite um número:").pack(pady=5)
+entry_numero = tk.Entry(aba1)
+entry_numero.pack(pady=5)
+tk.Button(aba1, text="Verificar", command=verificar_numero).pack(pady=5)
+
+# --------- Aba 2 ---------
+aba2 = ttk.Frame(notebook)
+notebook.add(aba2, text="Questão 2")
+tk.Label(aba2, text="Digite uma lista de números (ordenada):").pack(pady=5)
+entry_lista = tk.Entry(aba2)
+entry_lista.pack(pady=5)
+tk.Label(aba2, text="Digite o limite:").pack(pady=5)
+entry_limite = tk.Entry(aba2)
+entry_limite.pack(pady=5)
+tk.Button(aba2, text="Verificar", command=verificar_lista_limite).pack(pady=5)
+
+# --------- Aba 3 ---------
+aba3 = ttk.Frame(notebook)
+notebook.add(aba3, text="Questão 3")
+tk.Label(aba3, text="Digite um ano:").pack(pady=5)
+entry_ano = tk.Entry(aba3)
+entry_ano.pack(pady=5)
+tk.Button(aba3, text="Verificar", command=verificar_bissexto).pack(pady=5)
+
+# --------- Aba 4 ---------
+aba4 = ttk.Frame(notebook)
+notebook.add(aba4, text="Questão 4")
+tk.Label(aba4, text="Digite o primeiro número:").pack(pady=5)
+entry_n1 = tk.Entry(aba4)
+entry_n1.pack(pady=5)
+tk.Label(aba4, text="Digite o segundo número:").pack(pady=5)
+entry_n2 = tk.Entry(aba4)
+entry_n2.pack(pady=5)
+tk.Button(aba4, text="Calcular", command=calcular).pack(pady=5)
+
+# --------- Aba 5 ---------
+aba5 = ttk.Frame(notebook)
+notebook.add(aba5, text="Questão 5")
+tk.Label(aba5, text="Digite 4 valores separados por espaço:").pack(pady=5)
+entry_valores = tk.Entry(aba5)
+entry_valores.pack(pady=5)
+tk.Button(aba5, text="Analisar", command=analisar_lista).pack(pady=5)
+
+root.mainloop()
 
