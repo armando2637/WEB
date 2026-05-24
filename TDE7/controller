@@ -1,1 +1,77 @@
+from model.aluno import Aluno
+from model.disciplina import Disciplina
+from model.matricula import Matricula
 
+class SistemaController:
+
+    def __init__(self):
+        self.alunos = []
+        self.disciplinas = []
+        self.matriculas = []
+
+    # -------------------------
+    # ALUNO
+    # -------------------------
+    def criar_aluno(self, nome):
+        aluno = Aluno(len(self.alunos)+1, nome)
+        self.alunos.append(aluno)
+
+    def listar_alunos(self):
+        return self.alunos
+
+    # -------------------------
+    # DISCIPLINA
+    # -------------------------
+    def criar_disciplina(self, nome):
+        disciplina = Disciplina(len(self.disciplinas)+1, nome)
+        self.disciplinas.append(disciplina)
+
+    def listar_disciplinas(self):
+        return self.disciplinas
+
+    # -------------------------
+    # MATRÍCULA
+    # -------------------------
+    def criar_matricula(self, nome_aluno, nome_disciplina):
+        aluno = next(a for a in self.alunos if a.nome == nome_aluno)
+        disciplina = next(d for d in self.disciplinas if d.nome == nome_disciplina)
+
+        # valida duplicidade
+        for m in self.matriculas:
+            if m.aluno.id == aluno.id and m.disciplina.id == disciplina.id:
+                return False
+
+        matricula = Matricula(len(self.matriculas)+1, aluno, disciplina)
+        self.matriculas.append(matricula)
+        return True
+
+    def listar_matriculas(self):
+        return self.matriculas
+
+    def remover_matricula(self, id_matricula):
+        self.matriculas = [m for m in self.matriculas if m.id != id_matricula]
+
+    def atualizar_matricula(self, id_matricula, nome_aluno, nome_disciplina):
+        aluno = next(a for a in self.alunos if a.nome == nome_aluno)
+        disciplina = next(d for d in self.disciplinas if d.nome == nome_disciplina)
+
+        # valida duplicidade
+        for m in self.matriculas:
+            if m.aluno.id == aluno.id and m.disciplina.id == disciplina.id:
+                return False
+
+        for m in self.matriculas:
+            if m.id == id_matricula:
+                m.aluno = aluno
+                m.disciplina = disciplina
+        return True
+
+    # -------------------------
+    # ESTATÍSTICA
+    # -------------------------
+    def estatistica(self):
+        resultado = {}
+        for d in self.disciplinas:
+            count = sum(1 for m in self.matriculas if m.disciplina.id == d.id)
+            resultado[d.nome] = count
+        return resultado
