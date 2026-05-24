@@ -1,1 +1,99 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+from controller.sistema_controller import SistemaController
 
+def iniciar():
+
+    controller = SistemaController()
+
+    root = tk.Tk()
+    root.title("Sistema Acadêmico")
+
+    # -------------------------
+    # FUNÇÕES
+    # -------------------------
+
+    def atualizar_combobox():
+        combo_aluno['values'] = [a.nome for a in controller.listar_alunos()]
+        combo_disciplina['values'] = [d.nome for d in controller.listar_disciplinas()]
+
+    def cadastrar_aluno():
+        nome = entry_aluno.get()
+        if nome:
+            controller.criar_aluno(nome)
+            atualizar_combobox()
+            entry_aluno.delete(0, tk.END)
+
+    def cadastrar_disciplina():
+        nome = entry_disciplina.get()
+        if nome:
+            controller.criar_disciplina(nome)
+            atualizar_combobox()
+            entry_disciplina.delete(0, tk.END)
+
+    def matricular():
+        if not controller.criar_matricula(combo_aluno.get(), combo_disciplina.get()):
+            messagebox.showwarning("Erro", "Matrícula duplicada")
+        atualizar_lista()
+
+    def atualizar_lista():
+        tree.delete(*tree.get_children())
+        for m in controller.listar_matriculas():
+            tree.insert("", "end", values=(m.id, m.aluno.nome, m.disciplina.nome))
+        atualizar_estatistica()
+
+    def remover():
+        item = tree.selection()
+        if item:
+            id_m = tree.item(item)['values'][0]
+            controller.remover_matricula(id_m)
+            atualizar_lista()
+
+    def atualizar():
+        item = tree.selection()
+        if item:
+            id_m = tree.item(item)['values'][0]
+            if not controller.atualizar_matricula(id_m, combo_aluno.get(), combo_disciplina.get()):
+                messagebox.showwarning("Erro", "Duplicado")
+            atualizar_lista()
+
+    def atualizar_estatistica():
+        dados = controller.estatistica()
+        texto = ""
+        for disciplina, total in dados.items():
+            texto += f"{disciplina}: {total} alunos\n"
+        label_estatistica.config(text=texto)
+
+    # -------------------------
+    # COMPONENTES
+    # -------------------------
+
+    entry_aluno = tk.Entry(root)
+    entry_aluno.grid(row=0, column=1)
+    tk.Button(root, text="Cadastrar Aluno", command=cadastrar_aluno).grid(row=0, column=2)
+
+    entry_disciplina = tk.Entry(root)
+    entry_disciplina.grid(row=1, column=1)
+    tk.Button(root, text="Cadastrar Disciplina", command=cadastrar_disciplina).grid(row=1, column=2)
+
+    combo_aluno = ttk.Combobox(root)
+    combo_aluno.grid(row=2, column=0)
+
+    combo_disciplina = ttk.Combobox(root)
+    combo_disciplina.grid(row=2, column=1)
+
+    tk.Button(root, text="Matricular", command=matricular).grid(row=2, column=2)
+    tk.Button(root, text="Atualizar", command=atualizar).grid(row=3, column=2)
+    tk.Button(root, text="Remover", command=remover).grid(row=4, column=2)
+    tk.Button(root, text="Atualizar lista", command=atualizar_lista).grid(row=5, column=2)
+
+    tree = ttk.Treeview(root, columns=("ID", "Aluno", "Disciplina"), show="headings")
+    tree.heading("ID", text="ID")
+    tree.heading("Aluno", text="Aluno")
+    tree.heading("Disciplina", text="Disciplina")
+    tree.grid(row=6, column=0, columnspan=3)
+
+    label_estatistica = tk.Label(root, text="")
+    label_estatistica.grid(row=7, column=0, columnspan=3)
+
+    root.mainloop()
