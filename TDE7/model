@@ -1,1 +1,16 @@
+class Aluno:
+    def __init__(self, id, nome):
+        self.id = id
+        self.nome = nome
 
+class Disciplina:
+    def __init__(self, id, nome):
+        self.id = id
+        self.nome = nome
+
+
+class Matricula:
+    def __init__(self, id, aluno, disciplina):
+        self.id = id
+        self.aluno = aluno
+        self.disciplina = disciplina
